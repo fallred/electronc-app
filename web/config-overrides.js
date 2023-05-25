@@ -9,6 +9,7 @@ const {
     addWebpackAlias,
     addWebpackModuleRule,
     addWebpackPlugin,
+    paths
 } = require('customize-cra');
 // const rewireMultipleEntry = require('react-app-rewire-multiple-entry');
 
@@ -29,14 +30,33 @@ const multipleEntry = require('react-app-rewire-multiple-entry')(entries);
 const addEntry = () => config => {
     // config.optimization.splitChunks.name = process.env.NODE_ENV === 'development';
     console.log('addEntry:');
+    paths.appBuild = path.join(path.dirname(paths.appBuild), 'build');
     multipleEntry.addMultiEntry(config);
+    config.output.path = paths.appBuild;
     console.log(config);
     return config;
 };
-
+/*
+function override(config, env) {
+    // Modify the appBuild property to specify the output directory
+    paths.appBuild = path.join(path.dirname(paths.appBuild), 'build');
+  
+    // Add multiple entry points
+    config = addEntry(config, whenDev(() => ({
+      entryPoints: ['src/index.dev.js']
+    })));
+    config = addEntry(config, whenProd(() => ({
+      entryPoints: ['src/index.prod.js']
+    })));
+  
+    // Modify the output path
+    config.output.path = paths.appBuild;
+  
+    return config;
+};
+*/
 module.exports = {
     webpack: override(
-        // multipleEntry.addMultiEntry
         addEntry(),
         fixBabelImports('import', {
             libraryName: 'antd',
@@ -74,17 +94,14 @@ module.exports = {
                 },
             ],
         }),
-        // addWebpackPlugin(
-        //     new webpack.DefinePlugin({
-        //         'process.env': {
-        //             PKG_NAME: JSON.stringify(process.env.npm_package_name),
-        //             PKG_VERSION: JSON.stringify(process.env.npm_package_version),
-        //         },
-        //     })
-        // )
+        addWebpackPlugin(
+            new webpack.DefinePlugin({
+                'process.env': {
+                    PKG_NAME: JSON.stringify(process.env.npm_package_name),
+                    PKG_VERSION: JSON.stringify(process.env.npm_package_version),
+                },
+            }),
+            process.env.NODE_ENV !== 'development' ? new UploadPlugin() : null
+        )
     )
-    // webpack: function(config, env) {
-    //     multipleEntry.addMultiEntry(config);
-    //     return config;
-    // }
 }

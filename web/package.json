@@ -12,9 +12,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-app-rewired start --config-overrides=config-overrides.js",
+    "build": "react-app-rewired build --config-overrides=config-overrides.js",
+    "test": "react-app-rewired test --config-overrides=config-overrides.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "babel-plugin-import": "^1.13.6",
+    "cross-env": "^7.0.3",
     "customize-cra": "^0.9.1",
     "less-loader": "^11.1.0",
     "react-app-rewire-multiple-entry": "^2.2.3",
