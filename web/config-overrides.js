@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const { paths } = require('react-app-rewired');
 const {
     override,
     fixBabelImports,
@@ -9,7 +10,6 @@ const {
     addWebpackAlias,
     addWebpackModuleRule,
     addWebpackPlugin,
-    paths
 } = require('customize-cra');
 // const rewireMultipleEntry = require('react-app-rewire-multiple-entry');
 
@@ -30,7 +30,7 @@ const multipleEntry = require('react-app-rewire-multiple-entry')(entries);
 const addEntry = () => config => {
     // config.optimization.splitChunks.name = process.env.NODE_ENV === 'development';
     console.log('addEntry:');
-    paths.appBuild = path.join(path.dirname(paths.appBuild), 'build');
+    config.output.path = path.join(path.dirname(paths.appBuild), 'build');
     multipleEntry.addMultiEntry(config);
     config.output.path = paths.appBuild;
     console.log(config);
