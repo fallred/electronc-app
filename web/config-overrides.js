@@ -97,6 +97,7 @@ module.exports = {
         addWebpackPlugin(
             new webpack.DefinePlugin({
                 'process.env': {
+                    ...process.env,
                     PKG_NAME: JSON.stringify(process.env.npm_package_name),
                     PKG_VERSION: JSON.stringify(process.env.npm_package_version),
                 },

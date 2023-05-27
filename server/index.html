@@ -4,14 +4,22 @@
     <meta charset="UTF-8" />
     <title>Hello World!</title>
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
+    <!-- <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'"
     />
     <meta
       http-equiv="X-Content-Security-Policy"
       content="default-src 'self'; script-src 'self'"
-    />
+    /> -->
+    <!-- You can also require other files to run in this process -->
+    <!-- <script src="./dist/renderer/index.js"></script> -->
+    <script>
+      const { ipcRenderer } = require('electron')
+      function invoke(type) {
+        ipcRenderer.send('command', type)
+      }
+    </script>
   </head>
   <body>
     <h1>Hello World!</h1>
@@ -19,7 +27,11 @@
     <span id="chrome-version"></span>, and Electron
     <span id="electron-version"></span>.
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./dist/renderer.js"></script>
+    <div class="module-1">
+      <button onclick="invoke('open')">选择文件</button>
+      <button onclick="invoke('save')">保存文件</button>
+      <button onclick="invoke('message')">弹窗提示</button>
+    </div>
+    
   </body>
 </html>
