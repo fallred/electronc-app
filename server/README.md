@@ -234,4 +234,29 @@ the module (for instance, using `npm rebuild` or `npm install`).
 python3 server.py
 python3 client.py
 
+（1）确认您的 Python 环境已经安装了 pip 包管理器。如果您还没有安装 pip，可以通过以下命令安装：
 
+dsconfig
+Copy
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+sudo python get-pip.py
+```
+
+（2）使用 pip 安装 gRPC 工具包。您可以使用以下命令来安装：
+
+Copy
+pip install grpcio-tools
+```
+
+如果您使用的是 Python 2.x 版本，可以使用以下命令来安装：
+pip install grpcio-tools==1.37.1
+
+注意：由于 gRPC 版本的更新，最新的 gRPC 工具包可能不支持 Python 2.x 版本。如果您的 Python 版本为 2.x，建议使用上述命令安装指定版本的 gRPC 工具包。
+
+安装完成后，重新运行您的命令：
+
+Copy
+python -m grpc_tools.protoc -I. --python_out=. --grpc_tools_python_out=. example.proto
+```
+
+这应该可以正常工作了。如果仍然出现问题，请检查您的 Python 环境变量设置是否正确，并确保 gRPC 工具包已正确安装。

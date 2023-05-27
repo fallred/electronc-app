@@ -54,6 +54,7 @@ function createWindow() {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools({mode: 'detach'});
+  require('./grpc-client'); // 启动 gRPC 客户端
 }
 
 // This method will be called when Electron has finished
@@ -83,20 +84,19 @@ app.on("window-all-closed", () => {
 
 
 
-
 // const child = spawn('./myaddon1', ['--port', '50051']);
-const addonPath = path.join(__dirname, 'myaddon1');
-console.log('addonPath:', addonPath);
-const child = spawn(addonPath, ['--port', '50051']);
+// const addonPath = path.join(__dirname, 'myaddon1');
+// console.log('addonPath:', addonPath);
+// const child = spawn(addonPath, ['--port', '50051']);
 
-child.stdout.on('data', (data: any) => {
-  console.log(`stdout: ${data}`);
-});
+// child.stdout.on('data', (data: any) => {
+//   console.log(`stdout: ${data}`);
+// });
 
-child.stderr.on('data', (data: any) => {
-  console.error(`stderr: ${data}`);
-});
+// child.stderr.on('data', (data: any) => {
+//   console.error(`stderr: ${data}`);
+// });
 
-child.on('close', (code: any) => {
-  console.log(`child process exited with code ${code}`);
-});
+// child.on('close', (code: any) => {
+//   console.log(`child process exited with code ${code}`);
+// });

@@ -83,4 +83,3 @@ electron_1.app.on("window-all-closed", function () {
 // child.on('close', (code: any) => {
 //   console.log(`child process exited with code ${code}`);
 // });
-//# sourceMappingURL=index.js.map
