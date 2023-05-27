@@ -26,11 +26,12 @@ import * as protoLoader from '@grpc/proto-loader';
 // const PROTO_PATH = './helloworld.proto'; // Protocol Buffers 定义文件路径
 const PROTO_PATH = path.join(__dirname, 'helloworld.proto');
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
-const examplePackage = grpc.loadPackageDefinition(packageDefinition).helloworld;
+const hellowordPackage = grpc.loadPackageDefinition(packageDefinition).helloworld;
 
-const client = new examplePackage.Greeter('localhost:50054', grpc.credentials.createInsecure());
+const client = new hellowordPackage.Greeter('localhost:50054', grpc.credentials.createInsecure());
 
-client.SayHello({ name: 'zqh' }, (error, response) => {
+const request = { name: 'zqh' };
+client.SayHello(request, (error, response) => {
   if (error) {
     console.error(error);
     return;

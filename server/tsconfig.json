@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    // "module": "commonjs",
-    // "noImplicitAny": true,
-    // "sourceMap": true,
-    // "outDir": "dist",
-    // "baseUrl": ".",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
     // "typeRoots": ["node_modules/@types"],
     // "types": ["node"],
     // "paths": {
@@ -16,5 +16,5 @@
   },
   "include": [
     "src/**/*"
-  ]
+, "rpc-c++/msg-center.js"  ]
 }

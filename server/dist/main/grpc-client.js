@@ -23,12 +23,14 @@ var protoLoader = require("@grpc/proto-loader");
 // const PROTO_PATH = './helloworld.proto'; // Protocol Buffers 定义文件路径
 var PROTO_PATH = path.join(__dirname, 'helloworld.proto');
 var packageDefinition = protoLoader.loadSync(PROTO_PATH);
-var examplePackage = grpc.loadPackageDefinition(packageDefinition).helloworld;
-var client = new examplePackage.Greeter('localhost:50054', grpc.credentials.createInsecure());
-client.SayHello({ name: 'zqh' }, function (error, response) {
+var hellowordPackage = grpc.loadPackageDefinition(packageDefinition).helloworld;
+var client = new hellowordPackage.Greeter('localhost:50054', grpc.credentials.createInsecure());
+var request = { name: 'zqh' };
+client.SayHello(request, function (error, response) {
     if (error) {
         console.error(error);
         return;
     }
     console.log("Result: ".concat(response.message));
 });
+//# sourceMappingURL=grpc-client.js.map
