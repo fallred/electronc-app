@@ -1,45 +1,30 @@
+// @ts-nocheck
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import * as path from "path";
 import {showOpenDialog, showSaveDialog, showMessageBox} from './demo1';
+import { Worker } from 'worker_threads';
+const process = require('process');
+const { spawn } = require('child_process');
+
+// import log from 'electron-log';
+// @ts-ignore
+// import addon from '../../build/Release/myaddon.node';
 
 
-// function showOpenDialog() {
-//     dialog
-//         .showOpenDialog({
-//             properties: ['openFile', 'multiSelections', 'openDirectory', 'showHiddenFiles'],
-//             filters: [
-//                 { name: '图片', extensions: ['jpg', 'png', 'gif'] },
-//                 { name: '视频', extensions: ['mkv', 'avi', 'mp4'] },
-//                 { name: '自定义文件类型', extensions: ['json'] },
-//                 { name: '任意类型', extensions: ['*'] },
-//             ],
-//         })
-//         .then((it) => console.log(it))
-// }
-  
-// function showSaveDialog() {
-//     dialog
-//         .showSaveDialog({
-//             title: '请保存到一个隐蔽的位置',
-//         })
-//         .then((it) => console.log(it))
-// }
-  
-// function showMessageBox(win: BrowserWindow) {
-//     dialog
-//         .showMessageBox(win, {
-//             icon: path.join(process.cwd(), 'apple.png'),
-//             type: 'info',
-//             title: '消息标题',
-//             message: '消息内容',
-//             detail: '更详细的信息',
-//             buttons: ['按钮1', '按钮2'],
-//             defaultId: 1,
-//         })
-//         .then((it) => {
-//             console.log('result', it)
-//         })
-// }
+console.log(process.versions.node);
+
+const worker = new Worker(path.join(__dirname, "./worker.js"));
+worker.postMessage('start');
+worker.on('message', message => {
+  console.log('Received message from worker:', message);
+});
+
+
+// ipcMain.handle('hello', async (event, arg) => {
+//   const result = addon.hello();
+//   return result;
+// });
+
 
 let mainWindow: BrowserWindow;
 function createWindow() {
@@ -95,3 +80,23 @@ app.on("window-all-closed", () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+
+
+
+// const child = spawn('./myaddon1', ['--port', '50051']);
+const addonPath = path.join(__dirname, 'myaddon1');
+console.log('addonPath:', addonPath);
+const child = spawn(addonPath, ['--port', '50051']);
+
+child.stdout.on('data', (data: any) => {
+  console.log(`stdout: ${data}`);
+});
+
+child.stderr.on('data', (data: any) => {
+  console.error(`stderr: ${data}`);
+});
+
+child.on('close', (code: any) => {
+  console.log(`child process exited with code ${code}`);
+});

@@ -9,3 +9,7 @@ import {ipcRenderer} from 'electron';
 function invoke(type: any) {
   ipcRenderer.send('command', type)
 }
+
+ipcRenderer.invoke('hello').then(result => {
+  console.log(result);
+});

@@ -10,4 +10,7 @@ var electron_1 = require("electron");
 function invoke(type) {
     electron_1.ipcRenderer.send('command', type);
 }
+electron_1.ipcRenderer.invoke('hello').then(function (result) {
+    console.log(result);
+});
 //# sourceMappingURL=index.js.map
